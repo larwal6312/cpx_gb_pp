@@ -67,9 +67,35 @@ def random_lights(autoWrite, brightness):
             cpx.pixels.show()
             sleep(0.5)
 
+def spinning_lights(autoWrite_off, high_light):
+    cpx.pixels.auto_write = autoWrite
+    cpx.pixels.brightness = brightness
+    for _ in range(5):
+        cpx.pixels[0,5] = white
+        cpx.pixels.show()
+        sleep(0.5)
+        cpx.pixels.fill((off))
+        cpx.pixels[1,6] = red
+        cpx.pixels.show()
+        sleep(0.5)
+        cpx.pixels.fill((off))
+        cpx.pixels[2,7] = yellow
+        cpx.pixels.show()
+        sleep(0.5)
+        cpx.pixels.fill((off))
+        cpx.pixels[3,8] = aqua
+        cpx.pixels.show()
+        sleep(0.5)
+        cpx.pixels.fill((off))
+        cpx.pixels[4,9] = purple
+        cpx.pixels.show()
+        sleep(0.5)
+
 while true:
     start_sound(autoWrite_on, high_light)
     sleep(2)
     color_fade(autoWrite_off, low_light)
     sleep(2)
     random_lights(autoWrite_off, low_light)
+    sleep(2)
+    spinning_lights(autoWrite_off, high_light)
