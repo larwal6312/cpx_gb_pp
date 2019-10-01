@@ -1,4 +1,4 @@
-import time
+from time import sleep
 from random import seed, shuffle, randint
 from adafruit_circuitplayground.express import cpx
 
