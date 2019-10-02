@@ -1,5 +1,8 @@
 from time import sleep
-from random import seed, shuffle, randint
+from random import seed
+#from random import shuffle
+from random import randint
+from random import choice
 from adafruit_circuitplayground.express import cpx
 
 ### NeoPixel Colors ###
@@ -28,6 +31,7 @@ def start_sound(autoWrite, brightness):
     cpx.pixels.brightness = brightness
     cpx.pixels.auto_write = autoWrite
     cpx.play_file("protonpack_start.wav")
+    #cpx.play_file("Ghostbusters.mid")
     for pixel in range(10):
         cpx.pixels[pixel] = (green)
         sleep(0.4)
@@ -42,60 +46,69 @@ def color_fade(autoWrite, brightness):
             brightness = (level * 0.01)
             cpx.pixels.brightness = brightness
             cpx.pixels.show()
-            sleep(0.5)
+        sleep(1)
         for level in range(50):
             brightness = (0.5 - (level * 0.01))
             cpx.pixels.brightness = brightness
             cpx.pixels.show()
-            sleep(0.5)
+        sleep(1)
         cpx.pixels.fill((off))
         cpx.pixels.show()
-        sleep(0.5)
 
 def random_lights(autoWrite, brightness):
     cpx.pixels.autoWrite = autoWrite
-    for loop in range(5):
-        seed(loop)
-        sequence = [i for i in range(10)]
-        shuffle(sequence)
-        cpx.pixels.brightness = brightness
-        for num in range(10):
-            pixel_num = sequence
-            seed(num)
-            color = randinit(0,7)
-            cpx.pixels[pixel_num] = (color)
-            cpx.pixels.show()
-            sleep(0.5)
+    cpx.pixels.brightness = brightness
+    pixel_list = [0,1,2,3,4,5,6,7,8,9]
+    for _ in range(15):
+        rand_pixel = choice(pixel_list)
+        rand_color = choice(random_colors)
+        cpx.pixels[rand_pixel] = rand_color
+        cpx.pixels.show()
+        last_color = rand_color
+        last_pixel = rand_pixel
+        sleep(.5)
+        cpx.pixels[rand_pixel] = off
 
-def spinning_lights(autoWrite_off, high_light):
-    cpx.pixels.auto_write = autoWrite
+def spinning_lights(autoWrite_off, brightness):
+    cpx.pixels.auto_write = autoWrite_off
     cpx.pixels.brightness = brightness
     for _ in range(5):
-        cpx.pixels[0,5] = white
+        cpx.pixels[0] = white
+        cpx.pixels[5] = white
         cpx.pixels.show()
-        sleep(0.5)
+        sleep(0.2)
         cpx.pixels.fill((off))
-        cpx.pixels[1,6] = red
+        cpx.pixels[1] = red
+        cpx.pixels[6] = red
         cpx.pixels.show()
-        sleep(0.5)
+        sleep(0.2)
         cpx.pixels.fill((off))
-        cpx.pixels[2,7] = yellow
+        cpx.pixels[2] = yellow
+        cpx.pixels[7] = yellow
         cpx.pixels.show()
-        sleep(0.5)
+        sleep(0.2)
         cpx.pixels.fill((off))
-        cpx.pixels[3,8] = aqua
+        cpx.pixels[3] = aqua
+        cpx.pixels[8] = aqua
         cpx.pixels.show()
-        sleep(0.5)
+        sleep(0.2)
         cpx.pixels.fill((off))
-        cpx.pixels[4,9] = purple
+        cpx.pixels[4] = purple
+        cpx.pixels[9] = purple
         cpx.pixels.show()
-        sleep(0.5)
+        sleep(0.2)
+        cpx.pixels.fill((off))
+        cpx.pixels.show()
 
-while true:
-    start_sound(autoWrite_on, high_light)
-    sleep(2)
-    color_fade(autoWrite_off, low_light)
-    sleep(2)
-    random_lights(autoWrite_off, low_light)
-    sleep(2)
-    spinning_lights(autoWrite_off, high_light)
+#for _ in range(1):
+while True:
+    if cpx.switch:
+        print("loop started")
+        #cpx.play_file("protonpack_start.wav")
+        start_sound(autoWrite_on, high_light)
+        sleep(1)
+        color_fade(autoWrite_off, low_light)
+        sleep(1)
+        random_lights(autoWrite_on, high_light)
+        sleep(1)
+        spinning_lights(autoWrite_off, high_light)
